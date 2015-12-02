@@ -110,6 +110,29 @@
         </div>
         <div class="ui page grid main">
             <div class="content">
+                @if( count( $errors ) > 0 )
+                    <div class="ui container">
+                        <div class="ui error message">
+                            <i class="close icon"></i>
+                            <div class="header">
+                                Something went wrong!
+                            </div>
+                            <ul class="list">
+                                @foreach( $errors->all() as $errors )
+                                    <li>{{ $errors }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                @endif
+                @if( session( 'success' ) )
+                    <div class="ui container">
+                        <div class="ui positive message" >
+                            <i class="close icon"></i>
+                            {{ session( 'success' ) }}
+                        </div>
+                    </div>
+                @endif
                 @yield('content')
             </div>
         </div>

@@ -35,8 +35,11 @@ class UserChangePasswordRequest extends Request
 
         $user = auth()->user();
 
-        if ($user) {
+        if ($user)
+        {
+
             return $this->route( 'user' ) == $user->id || parent::authorize();
+
         }
 
         return parent::authorize();

@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
+//use Illuminate\Http\RedirectResponse;
 use App\Http\Requests;
 use App\Http\Requests\UserChangePasswordRequest;
 use App\Http\Requests\UserEditRequest;
@@ -54,7 +55,7 @@ class UserController extends Controller
     public function show( $id )
     {
 
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         return view( 'user.show' )->withUser( $user );
 
     }
