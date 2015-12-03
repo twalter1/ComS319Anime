@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->text( 'description' )->nullable();
             $table->integer( 'numFollowers' )->nullable();
+            $table->json( 'currentlyFollowing' );
             $table->timestamps();
         });
     }

@@ -24,7 +24,44 @@
                         <!--<textarea>{{ $user->description }}</textarea>-->
                         <h3 style="color:white">{{ $user->description }}</h3>
                     </div>
-                    <div class="ui button">Follow</div>
+                    @if( !Auth::guest() && ( Auth::id() != $user->id ) )
+                        <script>
+
+                            function show( button )
+                            {
+
+                                alert( $( button ).hasClass( "active" ) );
+                                if( !$( button).hasClass( "active" ) )
+                                {
+
+                                    var count = '{{ $user->numFollowers }}';
+                                    count++;
+                                    '{{ $user->numFollowers }}'++;
+
+                                }
+
+                            }
+                            $( document).ready( function(){
+
+                                var $toggle = $( '.ui.toggle.button' );
+                                $toggle.state({
+
+                                    text:{
+
+                                        inactive: 'Follow',
+                                        active: 'Unfollow'
+
+                                    }
+
+                                });
+
+                            });
+
+                        </script>
+                        <div class="ui toggle button" onclick="show(this)">
+                            Follow
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
