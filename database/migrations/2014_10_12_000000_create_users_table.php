@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('password', 60);
             $table->rememberToken();
             $table->text( 'description' )->nullable();
-            $table->integer( 'numFriends' )->nullable();
+            $table->integer( 'numFollowers' )->nullable();
             $table->timestamps();
         });
     }

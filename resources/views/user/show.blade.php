@@ -15,7 +15,7 @@
                         <img class="ui small image" src="{{ asset('/images/image.png') }}">
                         <h1 style="color:white">Profile Pic coming soon</h1>
                         <h2 style="color:white">Email: {{ $user->email }}</h2>
-                        <h3 style="color:white">Number of Friends: {{ $user->numFriends }}</h3>
+                        <h3 style="color:white">Number of Followers: {{ $user->numFollowers }}</h3>
                     </div>
                 </div>
                 <div class="ten wide column">
@@ -24,6 +24,7 @@
                         <!--<textarea>{{ $user->description }}</textarea>-->
                         <h3 style="color:white">{{ $user->description }}</h3>
                     </div>
+                    <div class="ui button">Follow</div>
                 </div>
             </div>
         </div>

@@ -9,7 +9,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
-                        <th># of Friends</th>
+                        <th># of Followers</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,7 +24,7 @@
                             {{$user->email}}
                         </td>
                         <td>
-                            {{$user->numFriends}}
+                            {{$user->numFollowers}}
                         </td>
                     </tr>
                 @endforeach

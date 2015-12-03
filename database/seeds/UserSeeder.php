@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
         $user->email = 'tristan@iastate.edu';
         $user->password = bcrypt('test123');
         $user->description = 'I like to take long walks on the veranda.';
-        $user->numFriends = '10';
+        $user->numFollowers = '10';
         $user->save();
 
         $user = new User;
@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
         $user->email = 'jrbaedke@iastate.edu';
         $user->password = bcrypt('test123');
         $user->description = 'I like bubble baths.';
-        $user->numFriends = '25';
+        $user->numFollowers = '25';
         $user->save();
 
     }
