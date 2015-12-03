@@ -34,9 +34,7 @@
                                 if( !$( button).hasClass( "active" ) )
                                 {
 
-                                    var count = '{{ $user->numFollowers }}';
-                                    count++;
-                                    '{{ $user->numFollowers }}'++;
+                                    //need to use ajax call
 
                                 }
 
