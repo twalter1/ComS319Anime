@@ -53,6 +53,15 @@ Route::group(
             ]
         );
 
+        Route::get(
+            //This is the url.  It would be localhost:8080/user/{the user whose page you are on}/follow
+            'user/{user}/follow',
+            [
+                'as' => 'user.follow',
+                'uses' => 'UserController@follow'
+            ]
+        );
+
         Route::resource('user', 'UserController');
 
     }

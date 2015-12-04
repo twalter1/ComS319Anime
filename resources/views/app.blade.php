@@ -147,6 +147,9 @@
                 $('.ui.accordion').accordion();
                 $('.ui.dropdown').dropdown();
                 $('.ui.checkbox').checkbox();
+                $.fn.api.settings.api = {
+                    'follow user': '/user/{id}/follow'
+                };
 
             });
         </script>

@@ -27,14 +27,35 @@
                     @if( !Auth::guest() && ( Auth::id() != $user->id ) )
                         <script>
 
+                            /*$.fn.api.settings.api = {
+
+                                'follow user': '/app/Controllers/UserController.php/{id}'
+
+                            };*/
+                            /*var api = {
+
+                                'follow user': '/user/{id}/follow'
+
+                            }*/
                             function show( button )
                             {
 
-                                alert( $( button ).hasClass( "active" ) );
+                                //alert( $( button ).hasClass( "active" ) );
                                 if( !$( button).hasClass( "active" ) )
                                 {
 
-                                    //need to use ajax call
+                                    /*$( '.toggle.button').api({
+
+                                        action: '/follow/{id}',
+                                        urlData:
+                                        {
+
+                                            id: '{{ $user->id }}'
+
+                                        }
+
+                                    });*/
+                                    $( '.toggle.button').api();
 
                                 }
 
@@ -56,7 +77,7 @@
                             });
 
                         </script>
-                        <div class="ui toggle button" onclick="show(this)">
+                        <div class="ui toggle button" onclick="show(this)" data-action="follow user" data-id="{{ $user->id }}">
                             Follow
                         </div>
                     @endif

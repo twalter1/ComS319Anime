@@ -196,6 +196,25 @@ class UserController extends Controller
     }
 
     /**
+     * Method that saves the currently logged in user as a follower of the specified user
+     * The return value is the number of followers of the specified user.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function follow( $id )
+    {
+
+        $user = Auth::user();
+        $following = User::find( $id );
+
+        $user->following()->save( $following );
+
+        return $following->followers->count();
+
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
