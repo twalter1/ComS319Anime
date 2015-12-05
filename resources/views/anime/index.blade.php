@@ -70,10 +70,10 @@
                 <p>
                     <!--text box to search by name,  matching results will gain a bold outline-->
                     Search by Name:
-                    <input id="title" type="text">
+                    <input id="title" type="text" style="color:Black">
                     <!--option will have graph show only shows which are completed or not-->
                     Status
-                    <select class="choice" id=statusPrefer>
+                    <select class="choice" id=statusPrefer style="color:Black">
                         <option value="none">Both</option>
                         <option value="done">Completed</option>
                         <option value="notdone">In Progress</option>
@@ -83,19 +83,19 @@
                 <p id=left>
                     <!--toggles graph between genre web (sorted()) and interconnected (basic()) layout-->
                     Search by Relation:
-                    <input id="pick" class="choice" type="checkbox" name="type">
+                    <input id="pick" class="choice" type="checkbox" name="type" >
 
                 <p class="selector" id="default">
                     <!--genre selection for sorted()-->
                     Genres:
-                    <select class="choice" id=genrePrefer>
+                    <select class="choice" id=genrePrefer style="color:Black">
                         <option value="all">All</option>
                     </select>
                 </p>
                 <p class="selector" id="other">
                     <!--number of similar genres required for basic()-->
                     number of similar genres
-                    <input class="choice" id="similarnum" type="number" name="quantity" min="1" max="50" value="1">
+                    <input class="choice" id="similarnum" type="number" name="quantity" min="1" max="50" value="1" style="color:Black">
                 </p>
 
                 <p id="label">
