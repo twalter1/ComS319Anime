@@ -139,6 +139,7 @@
         <!-- Scripts -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src='http://d3js.org/d3.v3.min.js'></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
         <script src="//oss.maxcdn.com/semantic-ui/2.1.3/semantic.min.js"></script>
         <script>
             $(document).ready(function ()
