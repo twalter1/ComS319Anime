@@ -24,12 +24,16 @@
                     </div>
                     <div class="field">
                         <label style="color:white">Confirm Password</label>
-                        <input type="password" class="form-control" name="confirmedPassword" placeholder="Confirm Password">
+                        <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm Password">
                     </div>
+                </div>
+                <div class="form-group">
+                    <label style="color:white">Upload Your Profile Picture</label>
+                    <input type="file" name="profilePic" style="color:white">
                 </div>
                 <br>
                 <div>
-                    <button type="submit" class="btn btn-default">Submit</button>
+                    <button type="submit" class="ui button">Submit</button>
                 </div>
             </form>
         </div>
