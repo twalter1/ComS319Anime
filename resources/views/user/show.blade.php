@@ -13,9 +13,12 @@
                     <div class="ui segment" style="background:#1A1A1A">
                         <!-- this image was taken from http://semantic-ui.com/elements/image.html -->
                         <img class="ui small image" src="{{ asset('/images/image.png') }}">
+
                         <h1 style="color:white">Profile Pic coming soon</h1>
+
                         <h2 style="color:white">Email: {{ $user->email }}</h2>
-                        <h3 style="color:white">Number of Followers: {{ $user->numFollowers }}</h3>
+
+                        <h3 style="color:white">Number of Followers: <span id="num-followers"> {{ $user->followers->count() }}</span></h3>
                     </div>
                 </div>
                 <div class="ten wide column">
@@ -27,45 +30,49 @@
                     @if( !Auth::guest() && ( Auth::id() != $user->id ) )
                         <script>
 
-                            /*$.fn.api.settings.api = {
-
-                                'follow user': '/app/Controllers/UserController.php/{id}'
-
-                            };*/
-                            /*var api = {
-
-                                'follow user': '/user/{id}/follow'
-
-                            }*/
-                            function show( button )
+                            function show(button)
                             {
 
-                                //alert( $( button ).hasClass( "active" ) );
-                                if( !$( button).hasClass( "active" ) )
+                                if ( !$(button).hasClass( "active" ) )
                                 {
 
-                                    /*$( '.toggle.button').api({
+                                    $( '.toggle.button' ).api({
 
-                                        action: '/follow/{id}',
-                                        urlData:
+                                            onSuccess: function (response)
+                                            {
+
+                                                var num_followers = response.followers;
+                                                $( 'span#num-followers' ).text( num_followers );
+
+                                            }
+
+                                    });
+
+                                }
+                                else
+                                {
+
+                                    $( '.toggle.button' ).api({
+
+                                        onSuccess: function (response)
                                         {
 
-                                            id: '{{ $user->id }}'
+                                            var num_followers = response.followers;
+                                            $( 'span#num-followers' ).text( num_followers );
 
                                         }
 
-                                    });*/
-                                    $( '.toggle.button').api();
+                                    });
 
                                 }
 
                             }
-                            $( document).ready( function(){
+                            $(document).ready(function () {
 
-                                var $toggle = $( '.ui.toggle.button' );
+                                var $toggle = $('.ui.toggle.button');
                                 $toggle.state({
 
-                                    text:{
+                                    text: {
 
                                         inactive: 'Follow',
                                         active: 'Unfollow'
@@ -77,9 +84,17 @@
                             });
 
                         </script>
-                        <div class="ui toggle button" onclick="show(this)" data-action="follow user" data-id="{{ $user->id }}">
-                            Follow
-                        </div>
+                        @if($user->followers->contains(Auth::user()))
+                            <div class="ui toggle button active" onclick="show(this)" data-action="unfollow user"
+                                 data-id="{{ $user->id }}">
+                                Unfollow
+                            </div>
+                        @else
+                            <div class="ui toggle button" onclick="show(this)" data-action="follow user"
+                                 data-id="{{ $user->id }}">
+                                Follow
+                            </div>
+                        @endif
                     @endif
                 </div>
             </div>

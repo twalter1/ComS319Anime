@@ -149,7 +149,8 @@
                 $('.ui.dropdown').dropdown();
                 $('.ui.checkbox').checkbox();
                 $.fn.api.settings.api = {
-                    'follow user': '/user/{id}/follow'
+                    'follow user': '/user/{id}/follow',
+                    'unfollow user': '/user/{id}/unfollow'
                 };
 
             });

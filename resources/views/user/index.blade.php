@@ -24,7 +24,7 @@
                             {{$user->email}}
                         </td>
                         <td>
-                            {{$user->numFollowers}}
+                            {{$user->followers->count()}}
                         </td>
                     </tr>
                 @endforeach

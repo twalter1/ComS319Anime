@@ -62,6 +62,14 @@ Route::group(
             ]
         );
 
+        Route::get(
+            'user/{user}/unfollow',
+            [
+                'as' => 'user.unfollow',
+                'uses' => 'UserController@unfollow'
+            ]
+        );
+
         Route::resource('user', 'UserController');
 
     }

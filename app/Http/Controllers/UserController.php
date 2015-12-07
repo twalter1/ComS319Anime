@@ -9,6 +9,7 @@ use App\Http\Requests\UserChangePasswordRequest;
 use App\Http\Requests\UserEditRequest;
 use App\User;
 use Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -210,7 +211,26 @@ class UserController extends Controller
 
         $user->following()->save( $following );
 
-        return $following->followers->count();
+        return response()->json( [ 'followers' => $following->followers->count() ], 220 );
+
+    }
+
+    /**
+     * Method that deletes the currently logged in user as a follower of the specified user
+     * The return value is the number of followers of the specified user.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function unfollow( $id )
+    {
+
+        $user = Auth::user();
+        $following = User::find( $id );
+
+        $user->following()->delete( $following );
+
+        return response()->json( [ 'followers' => $following->followers->count() ], 220 );
 
     }
 
