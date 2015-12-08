@@ -18,9 +18,9 @@
                 {!! Form::textarea( 'description', null ) !!}
             </div>
             <div class="field">
-                {!! Form::label('photo[]', 'Profile Picture', [ 'style'=>'color:white' ] ) !!}
+                {!! Form::label('photo', 'Profile Picture', [ 'style'=>'color:white' ] ) !!}
 
-                {!! Form::file('photo[]', [ 'style'=>'color:white' ] ) !!}
+                {!! Form::file('photo', [ 'style'=>'color:white' ] ) !!}
             </div>
             <div class="field">
                 {!! Form::submit( 'Save', [ 'class'=>'ui button' ] ) !!}

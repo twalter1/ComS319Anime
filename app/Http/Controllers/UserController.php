@@ -175,21 +175,30 @@ class UserController extends Controller
         $user->name = $request->get( 'name' );
         $user->email = $request->get( 'email' );
         $user->description = $request->get( 'description' );
-        //dd( $request->file('photo') );
-        /*if ( $request->hasFile('photo') ) {
-            foreach ($request->file('photo') as $file) {
-                if ($user->photos->count() == 0) {
 
-                    Photo::fromUpload($user, $file);
+        if( $request->hasFile( 'photo' ) )
+        {
 
-                } else {
+            if( $request->file( 'photo' )->isValid() )
+            {
 
-                    $photo = $user->photos->first();
-                    $photo->replaceImage($file);
+                $file = $request->file( 'photo' );
+                $destinationPath = 'uploads';
+                $extension = $file->getClientOriginalExtension();
+                $fileName = $user->id . "." . $extension;
+                $file->move( $destinationPath, $fileName );
+                $user->avatar_url = "/" . $destinationPath . "/" . $fileName;
 
-                }
             }
-        }*/
+            else
+            {
+
+                return redirect()->back()->withErrors( 'The file you tried to upload was invalid.' );
+
+            }
+
+        }
+
         $user->save();
 
         return redirect()->route( 'user.show', $id )->withSuccess( 'Successfully edited ' . $user->name . "'s profile " );
@@ -208,8 +217,12 @@ class UserController extends Controller
 
         $user = Auth::user();
         $following = User::find( $id );
+        if( !$user->following->contains( $following ) )
+        {
 
-        $user->following()->save( $following );
+            $user->following()->attach( $following );
+
+        }
 
         return response()->json( [ 'followers' => $following->followers->count() ], 220 );
 
@@ -227,8 +240,12 @@ class UserController extends Controller
 
         $user = Auth::user();
         $following = User::find( $id );
+        if( $user->following->contains( $following ) )
+        {
 
-        $user->following()->delete( $following );
+            $user->following()->detach( $following );
+
+        }
 
         return response()->json( [ 'followers' => $following->followers->count() ], 220 );
 

@@ -12,9 +12,11 @@
                 <div class="six wide column">
                     <div class="ui segment" style="background:#1A1A1A">
                         <!-- this image was taken from http://semantic-ui.com/elements/image.html -->
-                        <img class="ui small image" src="{{ asset('/images/image.png') }}">
-
-                        <h1 style="color:white">Profile Pic coming soon</h1>
+                        @if( $user->avatar_url == null )
+                            <img class="ui small image" src="{{ asset( 'images/image.png' ) }}">
+                        @else
+                            <img class="ui small image" src="{{ asset( $user->avatar_url ) }}">
+                        @endif
 
                         <h2 style="color:white">Email: {{ $user->email }}</h2>
 
@@ -26,10 +28,19 @@
                         <h1 style="color:white">About</h1>
                         <!--<textarea>{{ $user->description }}</textarea>-->
                         <h3 style="color:white">{{ $user->description }}</h3>
+                        @if( Auth::id() == $user->id )
+                            <h1 style="color:white">People you are Following</h1>
+                            @foreach( $user->following as $user )
+                                <a href="{{route('user.show', [$user->id])}}">
+                                    {{ $user->name }}
+                                </a>
+                                <br>
+                            @endforeach
+                        @endif
                     </div>
+                    <h1 style="color:white">{{$user->id}}</h1>
                     @if( !Auth::guest() && ( Auth::id() != $user->id ) )
                         <script>
-
                             function show(button)
                             {
 
@@ -43,6 +54,7 @@
 
                                                 var num_followers = response.followers;
                                                 $( 'span#num-followers' ).text( num_followers );
+                                                $( this).data( "action", "unfollow user" );
 
                                             }
 
@@ -59,6 +71,7 @@
 
                                             var num_followers = response.followers;
                                             $( 'span#num-followers' ).text( num_followers );
+                                            $( this).data( "action", "follow user" );
 
                                         }
 
@@ -82,9 +95,8 @@
                                 });
 
                             });
-
                         </script>
-                        @if($user->followers->contains(Auth::user()))
+                        @if( $user->followers->contains( Auth::user() ) )
                             <div class="ui toggle button active" onclick="show(this)" data-action="unfollow user"
                                  data-id="{{ $user->id }}">
                                 Unfollow
