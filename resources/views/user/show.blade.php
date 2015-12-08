@@ -30,15 +30,14 @@
                         <h3 style="color:white">{{ $user->description }}</h3>
                         @if( Auth::id() == $user->id )
                             <h1 style="color:white">People you are Following</h1>
-                            @foreach( $user->following as $user )
-                                <a href="{{route('user.show', [$user->id])}}">
-                                    {{ $user->name }}
+                            @foreach( $user->following as $followingUser )
+                                <a href="{{route('user.show', [$followingUser->id])}}">
+                                    {{ $followingUser->name }}
                                 </a>
                                 <br>
                             @endforeach
                         @endif
                     </div>
-                    <h1 style="color:white">{{$user->id}}</h1>
                     @if( !Auth::guest() && ( Auth::id() != $user->id ) )
                         <script>
                             function show(button)
