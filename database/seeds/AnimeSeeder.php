@@ -17,6 +17,8 @@ class AnimeSeeder extends Seeder
 
         $animes = new Anime;
         $animes->name = 'Sword Art Online';
+        //This picture was taken from https://totesenota.files.wordpress.com/2015/03/sword-art-online-cover.jpg
+        $animes->profile_url = 'images/sword-art-online-cover.jpg';
         $animes->genre = '[{"name":"action"}, {"name":"drama"}, {"name":"adventure"}]';
         $animes->status = 'completed';
         $animes->numSeasons = '1';
@@ -27,6 +29,8 @@ class AnimeSeeder extends Seeder
 
         $animes = new Anime;
         $animes->name = 'Sword Art Online II';
+        //This picture was taken from http://www.ryuanime.tv/watch-anime/sword-art-online-ii
+        $animes->profile_url = 'images/1142.jpg';
         $animes->genre = '[{"name":"drama"}, {"name":"action"}, {"name":"romance"}]';
         $animes->status = 'completed';
         $animes->numSeasons = '1';
@@ -37,6 +41,8 @@ class AnimeSeeder extends Seeder
 
         $animes = new Anime;
         $animes->name = 'One Piece';
+        //This picture was taken from http://www.ryuanime.tv/watch-anime/one-piece
+        $animes->profile_url = 'images/565.jpg';
         $animes->genre = '[{"name":"adventure"}, {"name":"comedy"}, {"name":"fantasy"}, {"name":"fighting"}]';
         $animes->status = 'ongoing';
         $animes->numSeasons = '7';
@@ -47,16 +53,20 @@ class AnimeSeeder extends Seeder
 
         $animes = new Anime;
         $animes->name = 'Full Metal Alchemist: Brotherhood';
+        //This image was taken from http://www.ryuanime.tv/watch-anime/fullmetal-alchemist-brotherhood
+        $animes->profile_url = 'images/554.jpg';
         $animes->genre = '[{"name":"adventure"}, {"name":"comedy"}, {"name":"drama"}]';
         $animes->status = 'completed';
         $animes->numSeasons = '1';
-        $animes->numEpisodes = '5';
+        $animes->numEpisodes = '64';
         //This description was taken from http://www.ryuanime.com/anime-series/fullmetal-alchemist-brotherhood/
         $animes->description = 'Two brothers lose their mother to an incurable disease. With the power of "alchemy", they use taboo knowledge to resurrect her. The process fails, and as a toll for using this type of alchemy, the older brother, Edward Elric loses his left leg while the younger brother, Alphonse Elric loses his entire body. To save his brother, Edward sacrifices his right arm and is able to affix his brothers soul to a suit of armor. With the help of a family friend, Edward receives metal limbs - "automail" - to replace his lost ones. With that, Edward vows to search for the Philosophers Stone to return the brothers to their original bodies, even if it means becoming a "State Alchemist", one who uses his/her alchemy for the military.';
         $animes->save();
 
         $animes = new Anime;
         $animes->name = 'Gurren Lagaan';
+        //This image was taken from http://www.ryuanime.tv/watch-anime/gurren-lagann
+        $animes->profile_url = 'images/138.jpg';
         $animes->genre = '[{"name":"action"}, {"name":"comedy"}, {"name":"mecha"}, {"name":"sci-fy"}]';
         $animes->status = 'completed';
         $animes->numSeasons = '2';
@@ -67,6 +77,8 @@ class AnimeSeeder extends Seeder
 
         $animes = new Anime;
         $animes->name = 'Bleach';
+        //This image was taken from http://www.ryuanime.tv/watch-anime/bleach
+        $animes->profile_url = 'images/566.jpg';
         $animes->genre = '[{"name":"action"}, {"name":"drama"}, {"name":"supernatural"}]';
         $animes->status = 'completed';
         $animes->numSeasons = '5';
@@ -77,6 +89,8 @@ class AnimeSeeder extends Seeder
 
         $animes = new Anime;
         $animes->name = 'Naruto';
+        //This image was take from http://www.ryuanime.tv/watch-anime/naruto
+        $animes->profile_url = 'images/1418.jpg';
         $animes->genre = '[{"name":"action"}, {"name":"drama"}, {"name":"comedy"}, {"name":"ninja"}]';
         $animes->status = 'completed';
         $animes->numSeasons = '4';
@@ -87,6 +101,8 @@ class AnimeSeeder extends Seeder
 
         $animes = new Anime;
         $animes->name = 'When Supernatual Battles Became Commonplace';
+        //This image was taken from http://www.crunchyroll.com/forumtopic-851717/when-supernatural-battles-became-commonplace-anticipation-and-discussion
+        $animes->profile_url = 'images/superNaturalBattles.jpg';
         $animes->genre = '[{"name":"action"}, {"name":"fantasy"}, {"name":"comedy"}, {"name":"romance"}]';
         $animes->status = 'completed';
         $animes->numSeasons = '1';
@@ -96,7 +112,9 @@ class AnimeSeeder extends Seeder
         $animes->save();
 
         $animes = new Anime;
-        $animes->name = 'Stiens; Gate';
+        $animes->name = 'Steins; Gate';
+        //This image was taken from http://www.ryuanime.tv/watch-anime/steins-gate
+        $animes->profile_url = 'images/671.jpg';
         $animes->genre = '[{"name":"action"}, {"name":"thriller"}]';
         $animes->status = 'completed';
         $animes->numSeasons = '1';
@@ -107,6 +125,8 @@ class AnimeSeeder extends Seeder
 
         $animes = new Anime;
         $animes->name = 'Cromartie High School';
+        //This image was taken from http://www.ryuanime.tv/watch-anime/cromartie-high-school
+        $animes->profile_url = 'images/449.jpg';
         $animes->genre = '[{"name":"comedy"}]';
         $animes->status = 'completed';
         $animes->numSeasons = '1';
@@ -117,6 +137,8 @@ class AnimeSeeder extends Seeder
 
         $animes = new Anime;
         $animes->name = 'Kill la Kill';
+        //This image was taken from http://www.ryuanime.tv/watch-anime/kill-la-kill
+        $animes->profile_url = 'images/140.jpg';
         $animes->genre = '[{"name":"comedy"}, {"name":"action"}]';
         $animes->status = 'completed';
         $animes->numSeasons = '1';
@@ -127,6 +149,8 @@ class AnimeSeeder extends Seeder
 
         $animes = new Anime;
         $animes->name = 'Baccano!';
+        //This image was taken from http://www.ryuanime.tv/watch-anime/baccano
+        $animes->profile_url = 'images/113.jpg';
         $animes->genre = '[{"name":"horror"}, {"name":"action"}, {"name":"comedy"}]';
         $animes->status = 'completed';
         $animes->numSeasons = '1';

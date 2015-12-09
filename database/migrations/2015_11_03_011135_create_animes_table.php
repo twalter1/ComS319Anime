@@ -15,6 +15,7 @@ class CreateAnimesTable extends Migration
         Schema::create('animes', function (Blueprint $table) {
             $table->increments('id');
             $table->string( 'name' );
+            $table->string( 'profile_url' )->nullable();
             $table->json( 'genre' );
             $table->string( 'status' );
             $table->integer( 'numSeasons' )->unsigned();

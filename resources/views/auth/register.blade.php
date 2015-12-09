@@ -27,10 +27,6 @@
                         <input type="password" class="form-control" name="password_confirmation" placeholder="Confirm Password">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label style="color:white">Upload Your Profile Picture</label>
-                    <input type="file" name="profilePic" style="color:white">
-                </div>
                 <br>
                 <div>
                     <button type="submit" class="ui button">Submit</button>

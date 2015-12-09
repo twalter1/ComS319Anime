@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Requests\UserChangePasswordRequest;
 use App\Http\Requests\UserEditRequest;
 use App\User;
+use App\Anime;
 use Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -248,6 +249,52 @@ class UserController extends Controller
         }
 
         return response()->json( [ 'followers' => $following->followers->count() ], 220 );
+
+    }
+
+    /**
+     * Method that saves the currently logged in user as a follower of the specified anime
+     * The return value is the number of followers of the specified anime.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function followAnimes( $id )
+    {
+
+        $user = Auth::user();
+        $followingAnime = Anime::find( $id );
+        if( !$user->followingAnime->contains( $followingAnime ) )
+        {
+
+            $user->followingAnime()->attach( $followingAnime );
+
+        }
+
+        return response()->json( [ 'followers' => $followingAnime->followers->count() ], 220 );
+
+    }
+
+    /**
+     * Method that deletes the currently logged in user as a follower of the specified anime
+     * The return value is the number of followers of the specified anime.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function unfollowAnimes( $id )
+    {
+
+        $user = Auth::user();
+        $followingAnime = Anime::find( $id );
+        if( $user->followingAnime->contains( $followingAnime ) )
+        {
+
+            $user->followingAnime()->detach( $followingAnime );
+
+        }
+
+        return response()->json( [ 'followers' => $followingAnime->followers->count() ], 220 );
 
     }
 

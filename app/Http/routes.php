@@ -38,6 +38,14 @@ Route::group(
         Route::resource( 'anime', 'AnimeController' );
 
         Route::get(
+            'anime/{anime}/watch',
+            [
+                'as' => 'anime.watch',
+                'uses' => 'AnimeController@watch'
+            ]
+        );
+
+        Route::get(
             'user/{user}/changePassword',
             [
                 'as' => 'user.changePassword',
@@ -67,6 +75,22 @@ Route::group(
             [
                 'as' => 'user.unfollow',
                 'uses' => 'UserController@unfollow'
+            ]
+        );
+
+        Route::get(
+            'user/{user}/followAnimes',
+            [
+                'as' => 'user.followAnimes',
+                'uses' => 'UserController@followAnimes'
+            ]
+        );
+
+        Route::get(
+            'user/{user}/unfollowAnimes',
+            [
+                'as' => 'user.unfollowAnimes',
+                'uses' => 'UserController@unfollowAnimes'
             ]
         );
 

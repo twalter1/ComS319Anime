@@ -14,4 +14,14 @@ class Anime extends Model
      */
     protected $table = 'animes';
 
+    /**
+     * Get all of the users that are followers of this anime
+     */
+    public function userFollowers()
+    {
+
+        return $this->belongsToMany( User::class, 'following_animes', 'anime_id', 'user_id' );
+
+    }
+
 }

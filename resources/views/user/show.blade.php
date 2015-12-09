@@ -20,7 +20,7 @@
 
                         <h2 style="color:white">Email: {{ $user->email }}</h2>
 
-                        <h3 style="color:white">Number of Followers: <span id="num-followers"> {{ $user->followers->count() }}</span></h3>
+                        <h3 style="color:white">Number of Followers: &nbsp<span id="num-followers"> {{ $user->followers->count() }}</span></h3>
                     </div>
                 </div>
                 <div class="ten wide column">
@@ -29,7 +29,7 @@
                         <!--<textarea>{{ $user->description }}</textarea>-->
                         <h3 style="color:white">{{ $user->description }}</h3>
                         @if( Auth::id() == $user->id )
-                            <h1 style="color:white">People you are Following</h1>
+                            <h1 style="color:white">People You are Following</h1>
                             @foreach( $user->following as $followingUser )
                                 <a href="{{route('user.show', [$followingUser->id])}}">
                                     {{ $followingUser->name }}
@@ -96,6 +96,13 @@
                             });
                         </script>
                         @if( $user->followers->contains( Auth::user() ) )
+                            <h1 style="color:white">Animes that {{ $user->name }} is Following</h1>
+                            @foreach( $user->followingAnime as $followingAnime )
+                                <a href="{{route('anime.show', [$followingAnime->id])}}">
+                                    {{ $followingAnime->name }}
+                                </a>
+                                <br>
+                            @endforeach
                             <div class="ui toggle button active" onclick="show(this)" data-action="unfollow user"
                                  data-id="{{ $user->id }}">
                                 Unfollow
