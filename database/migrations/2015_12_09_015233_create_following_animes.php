@@ -14,10 +14,10 @@ class CreateFollowingAnimes extends Migration
     {
 
         Schema::create('following_animes', function (Blueprint $table) {
-            $table->integer( 'user_id' )->unsigned()->index();
-            $table->foreign( 'user_id' )->references( 'id' )->on( 'users' )->onDelete( 'cascade' );
             $table->integer( 'anime_id' )->unsigned()->index();
             $table->foreign( 'anime_id' )->references( 'id' )->on( 'animes' )->onDelete( 'cascade' );
+            $table->integer( 'user_id' )->unsigned()->index();
+            $table->foreign( 'user_id' )->references( 'id' )->on( 'users' )->onDelete( 'cascade' );
             $table->primary( [ 'anime_id', 'user_id' ] );
         });
 

@@ -35,6 +35,24 @@ Route::group(
 
         Route::get( '/home', 'HomeController@index' );
 
+
+
+        Route::get(
+            'anime/{anime}/follow',
+            [
+                'as' => 'animal.follow',
+                'uses' => 'AnimeController@follow'
+            ]
+        );
+
+        Route::get(
+            'anime/{anime}/unfollow',
+            [
+                'as' => 'anime.unfollow',
+                'uses' => 'AnimeController@unfollow'
+            ]
+        );
+
         Route::resource( 'anime', 'AnimeController' );
 
         Route::get(
@@ -78,21 +96,6 @@ Route::group(
             ]
         );
 
-        Route::get(
-            'user/{user}/followAnimes',
-            [
-                'as' => 'user.followAnimes',
-                'uses' => 'UserController@followAnimes'
-            ]
-        );
-
-        Route::get(
-            'user/{user}/unfollowAnimes',
-            [
-                'as' => 'user.unfollowAnimes',
-                'uses' => 'UserController@unfollowAnimes'
-            ]
-        );
 
         Route::resource('user', 'UserController');
 

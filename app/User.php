@@ -60,7 +60,7 @@ class User extends Model implements AuthenticatableContract,
     /**
      * Get all of the animes that this user is following
      */
-    public function followingAnime()
+    public function animes_following()
     {
 
         return $this->belongsToMany( Anime::class, 'following_animes', 'user_id', 'anime_id' );

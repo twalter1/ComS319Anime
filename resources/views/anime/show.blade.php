@@ -34,7 +34,7 @@
                         <h1 style="color:white">Number of Episodes: &nbsp {{ $anime->numEpisodes }}</h1>
                         <h1 style="color:white">About</h1>
                         <h3 style="color:white">{{ $anime->description }}</h3>
-                        <h2 style="color:white">Number of People Following this Anime: &nbsp <span id="num-followers"> {{ $anime->userFollowers->count() }}</span></h2>
+                        <h2 style="color:white">Number of People Following this Anime: &nbsp <span id="num-followers"> {{ $anime->user_followers->count() }}</span></h2>
                         @if( !Auth::guest() )
                             <script>
                                 function show(button)
@@ -48,9 +48,9 @@
                                             onSuccess: function (response)
                                             {
 
-                                                var num_followers = response.userFollowers;
+                                                var num_followers = response.followers;
                                                 $( 'span#num-followers' ).text( num_followers );
-                                                $( this).data( "action", "unfollow user" );
+                                                $( this).data( "action", "unfollow anime" );
 
                                             }
 
@@ -65,9 +65,9 @@
                                             onSuccess: function (response)
                                             {
 
-                                                var num_followers = response.userFollowers;
+                                                var num_followers = response.followers;
                                                 $( 'span#num-followers' ).text( num_followers );
-                                                $( this).data( "action", "follow user" );
+                                                $( this).data( "action", "follow anime" );
 
                                             }
 
@@ -92,14 +92,14 @@
 
                                 });
                             </script>
-                            @if( $anime->userFollowers->contains( Auth::user() ) )
+                            @if( $anime->user_followers->contains( Auth::user() ) )
                                 <div class="ui toggle button active" onclick="show(this)" data-action="unfollow anime"
-                                     data-id="{{ $user->id }}">
+                                     data-id="{{ $anime->id }}">
                                     Unfollow
                                 </div>
                             @else
                                 <div class="ui toggle button" onclick="show(this)" data-action="follow anime"
-                                     data-id="{{ $user->id }}">
+                                     data-id="{{ $anime->id }}">
                                     Follow
                                 </div>
                             @endif

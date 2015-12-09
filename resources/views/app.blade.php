@@ -151,8 +151,8 @@
                 $.fn.api.settings.api = {
                     'follow user': '/user/{id}/follow',
                     'unfollow user': '/user/{id}/unfollow',
-                    'follow anime': '/user/{id}/followAnimes',
-                    'unfollow anime': '/user/{id}/unfollowAnimes'
+                    'follow anime': '/anime/{id}/follow',
+                    'unfollow anime': '/anime/{id}/unfollow'
                 };
 
             });

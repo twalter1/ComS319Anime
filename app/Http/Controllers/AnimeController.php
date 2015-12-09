@@ -9,6 +9,7 @@ use App\User;
 use App\Anime;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class AnimeController extends Controller
 {
@@ -55,9 +56,9 @@ class AnimeController extends Controller
     {
 
         $anime = Anime::findOrFail($id);
-        $user = Auth::user();
+        //$user = Auth::user();
         $data = json_decode( $anime->genre, true );
-        return view( 'anime.show' )->with( 'data', $data )->withAnime( $anime )->withUser( $user );
+        return view( 'anime.show' )->with( 'data', $data )->withAnime( $anime );
 
     }
 
@@ -105,19 +106,19 @@ class AnimeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function followUsers( $id )
+    public function follow( $id )
     {
-
         $user = Auth::user();
-        $followingAnime = Anime::find( $id );
-        if( !$followingAnime->userFollowers->contains( $user ) )
+        $followingAnime = Anime::with('user_followers')->find( $id );
+
+        if( !$followingAnime->user_followers->contains( $user ) )
         {
 
-            $followingAnime->userFollowers()->attach( $user );
+            $followingAnime->user_followers()->attach( $user );
 
         }
 
-        return response()->json( [ 'followers' => $followingAnime->followers->count() ], 220 );
+        return response()->json( [ 'followers' => $followingAnime->user_followers()->get()->count() ], 220 );
 
     }
 
@@ -128,19 +129,19 @@ class AnimeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function unfollowAnimes( $id )
+    public function unfollow( $id )
     {
-
         $user = Auth::user();
-        $followingAnime = Anime::find( $id );
-        if( $user->followingAnime->contains( $followingAnime ) )
+        $followingAnime = Anime::with('user_followers')->find( $id );
+
+        if( $followingAnime->user_followers->contains( $user) )
         {
 
-            $user->followingAnime()->detach( $followingAnime );
+            $followingAnime->user_followers()->detach( $user );
 
         }
 
-        return response()->json( [ 'followers' => $followingAnime->followers->count() ], 220 );
+        return response()->json( [ 'followers' => $followingAnime->user_followers()->get()->count() ], 220 );
 
     }
 

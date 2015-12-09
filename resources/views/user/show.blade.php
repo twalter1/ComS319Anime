@@ -20,7 +20,8 @@
 
                         <h2 style="color:white">Email: {{ $user->email }}</h2>
 
-                        <h3 style="color:white">Number of Followers: &nbsp<span id="num-followers"> {{ $user->followers->count() }}</span></h3>
+                        <h3 style="color:white">Number of Followers: &nbsp<span
+                                    id="num-followers"> {{ $user->followers->count() }}</span></h3>
                     </div>
                 </div>
                 <div class="ten wide column">
@@ -36,42 +37,61 @@
                                 </a>
                                 <br>
                             @endforeach
+                            <h1 style="color:white">Animes that You are Following</h1>
+                            @foreach( $user->animes_following as $followingYourAnime )
+                                <a href="{{route('anime.show', [$followingYourAnime->id])}}">
+                                    {{ $followingYourAnime->name }}
+                                </a>
+                                <br>
+                            @endforeach
                         @endif
                     </div>
                     @if( !Auth::guest() && ( Auth::id() != $user->id ) )
                         <script>
-                            function show(button)
-                            {
+                            function show(button) {
 
-                                if ( !$(button).hasClass( "active" ) )
-                                {
+                                if (!$(button).hasClass("active")) {
 
-                                    $( '.toggle.button' ).api({
+                                    $('.toggle.button').api({
 
-                                            onSuccess: function (response)
-                                            {
+                                        onSuccess: function (response) {
 
-                                                var num_followers = response.followers;
-                                                $( 'span#num-followers' ).text( num_followers );
-                                                $( this).data( "action", "unfollow user" );
+                                            var num_followers = response.followers;
+                                            $('span#num-followers').text(num_followers);
+                                            console.log(response.animes_following);
+                                            animes = '';
 
-                                            }
+                                            $.each(response.animes_following,
+                                                    function (key, value) {
+                                                        animes += '<a href="anime/' + value.id + '">'
+                                                                + value.name +
+                                                                '</a><br>';
+                                                    }
+                                            );
+                                            animes += '<br>';
+
+                                            $('div#animes-following').html(animes);
+                                            $('#anime-header').removeClass("hidden");
+
+                                            $(this).data("action", "unfollow user");
+
+                                        }
 
                                     });
 
                                 }
-                                else
-                                {
+                                else {
 
-                                    $( '.toggle.button' ).api({
+                                    $('.toggle.button').api({
 
-                                        onSuccess: function (response)
-                                        {
+                                        onSuccess: function (response) {
 
                                             var num_followers = response.followers;
-                                            $( 'span#num-followers' ).text( num_followers );
-                                            $( this).data( "action", "follow user" );
+                                            $('span#num-followers').text(num_followers);
+                                            $(this).data("action", "follow user");
 
+                                            $('div#animes-following').html('');
+                                            $('#anime-header').addClass("hidden");
                                         }
 
                                     });
@@ -96,18 +116,25 @@
                             });
                         </script>
                         @if( $user->followers->contains( Auth::user() ) )
-                            <h1 style="color:white">Animes that {{ $user->name }} is Following</h1>
-                            @foreach( $user->followingAnime as $followingAnime )
-                                <a href="{{route('anime.show', [$followingAnime->id])}}">
-                                    {{ $followingAnime->name }}
-                                </a>
+                            <h1 style="color:white" id="anime-header">Animes that {{ $user->name }} is Following</h1>
+                            <div id="animes-following">
+                                @foreach( $user->animes_following as $followingAnime )
+                                    <a href="{{route('anime.show', [$followingAnime->id])}}">
+                                        {{ $followingAnime->name }}
+                                    </a>
+                                    <br>
+                                @endforeach
                                 <br>
-                            @endforeach
+                            </div>
+
                             <div class="ui toggle button active" onclick="show(this)" data-action="unfollow user"
                                  data-id="{{ $user->id }}">
                                 Unfollow
                             </div>
                         @else
+                            <h1 style="color:white" class="hidden" id="anime-header">Animes that {{ $user->name }} is
+                                Following</h1>
+                            <div id="animes-following"></div>
                             <div class="ui toggle button" onclick="show(this)" data-action="follow user"
                                  data-id="{{ $user->id }}">
                                 Follow
