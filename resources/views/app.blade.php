@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{ !! Session::token() !! }">
         <title>ComS319Anime</title>
 
         <! -- Stylesheets -->
@@ -134,6 +135,130 @@
                     </div>
                 @endif
                 @yield('content')
+                <script>
+                    function parse( button )
+                    {
+
+                        var splitString = document.getElementById( 'command').value.split( " " );
+                        var startUrl = "http://localhost:8080/";
+                        var token = '{{ csrf_token() }}';
+                        if( splitString[0].localeCompare( "goto" ) == 0 )
+                        {
+
+                            if( splitString[1].localeCompare( "user" ) == 0 )
+                            {
+
+                                //alert( "Going to a user's page" );
+                                var userId = splitString[2];
+                                //alert( userId );
+                                /*if( userId <= 0 || userId >  )
+                                {
+
+                                    alert( "That user does not exist" );
+
+                                }*/
+                                //else
+                                //{
+
+                                    window.location.href = startUrl + "user/" + userId;
+
+                                //}
+                                /*$.post( config.routes[0].show, { _token: $( 'meta[ name=csrf-token ]').attr( 'content' ), chosenId: userId } ).done( function( data ){
+                                    alert( data );
+                                }).fail( function(){
+                                    alert( "Error" );
+                                });*/
+
+                            }
+                            else if( splitString[1].localeCompare( "anime" ) == 0 )
+                            {
+
+                                //alert( "Going to an anime's page" );
+                                var animeId = splitString[2];
+                                window.location.href = startUrl + "anime/" + animeId;
+
+                            }
+                            else if( splitString[1].localeCompare( "home" ) == 0 )
+                            {
+
+                                window.location.href = startUrl;
+
+                            }
+                            else if( splitString[1].localeCompare( "create" ) == 0 )
+                            {
+
+                                window.location.href = startUrl + "auth/register";
+
+                            }
+                            else if( splitString[1].localeCompare( "login" ) == 0 )
+                            {
+
+                                window.location.href = startUrl + "auth/login";
+
+                            }
+                            else if( splitString[1].localeCompare( "userHome" ) == 0 )
+                            {
+
+                                window.location.href = startUrl + "/user";
+
+                            }
+                            else if( splitString[1].localeCompare( "animeHome" ) == 0 )
+                            {
+
+                                window.location.href = startUrl + "/anime";
+
+                            }
+                            else
+                            {
+
+                                alert( "Invalid inner command" );
+
+                            }
+
+                        }
+                        else if( splitString[0].localeCompare( "Login" ) == 0 )
+                        {
+
+                            var userEmail = splitString[1];
+                            var userPassword = splitString[2];
+                            alert( "loggin in with email: " + userEmail + " and password: " + userPassword );
+                            $.post( '{{ url('/auth/login') }}', { _token: token, email: userEmail, password: userPassword } ).done( function( data ){
+                                alert( "You are logged in!!" );
+                            }).fail( function(){
+                                alert( "Something went wrong" );
+                            });
+
+                        }
+                        else if( splitString[0].localeCompare( "Logout" ) == 0 )
+                        {
+
+                            alert( "Loging out" );
+                            $.post( '{{ url('/auth/logout') }}', { _token: token } ).done( function( data ){
+                                alert( data );
+                            }).fail( function(){
+                                alert( "Could not log you out" );
+                            });
+
+                        }
+                        else
+                        {
+
+                            alert( "Invalid command" );
+
+                        }
+
+                    }
+                </script>
+                <br>
+                <label style="color:white">Command Line</label>
+                <br>
+                <div class="ui fluid input">
+                    <input type="text" name="commandLine" placeholder="Command" id="command" >
+                </div>
+                <br>
+                <div>
+                    <button type="submit" class="ui button" onclick="parse(this)">Submit</button>
+                </div>
             </div>
         </div>
         <!-- Scripts -->
@@ -149,6 +274,7 @@
                 $('.ui.dropdown').dropdown();
                 $('.ui.checkbox').checkbox();
                 $.fn.api.settings.api = {
+                    'goto user': '/user/{id}',
                     'follow user': '/user/{id}/follow',
                     'unfollow user': '/user/{id}/unfollow',
                     'follow anime': '/anime/{id}/follow',
@@ -156,6 +282,11 @@
                 };
 
             });
+            /*var config = {
+                routes: [
+                    { show:  }
+                ]
+            }*/
         </script>
         <script type="text/javascript" src="{{ asset('/js/init.js') }}"></script>
         <script type="text/javascript" src="{{ asset('/owl-carousel/owl.carousel.js') }}"></script>

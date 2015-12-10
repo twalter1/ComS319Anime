@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-//use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 //use Illuminate\Http\RedirectResponse;
 use App\Http\Requests;
 use App\Http\Requests\UserChangePasswordRequest;
@@ -62,6 +62,20 @@ class UserController extends Controller
         return view('user.show')->withUser($user);
 
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    /*public function showCommand( Request $request )
+    {
+
+        $user = User::findOrFail( $request->input( 'chosenId' ) );
+        return view('user.show')->withUser($user);
+
+    }*/
 
     /**
      * Show the form for editing the specified resource.

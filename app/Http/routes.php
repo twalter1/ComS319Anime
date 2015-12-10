@@ -96,6 +96,18 @@ Route::group(
             ]
         );
 
+        /*Route::post(
+            'user.showCommand',
+            [
+                'as' => 'user.showCommand',
+                'uses' => 'UserController@showCommand'
+            ]
+        );*/
+
+        //Route::post( 'user.showCommand', 'UserController@showCommand' );
+
+        //Route::get( 'user.showCommand', 'UserController@showCommand' );
+
 
         Route::resource('user', 'UserController');
 
