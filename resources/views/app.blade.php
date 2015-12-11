@@ -18,6 +18,9 @@
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src='http://d3js.org/d3.v3.min.js'></script>
+        <!--<script type="text/javascript" src="{{ asset('/js/init.js') }}"></script>-->
+        <script type="text/javascript" src="{{ asset('/owl-carousel/owl.carousel.js') }}"></script>
 
         <style>
             html, body{ background:#292929; }
@@ -28,39 +31,6 @@
                 height: auto;
                 margin: 70px auto;
 
-            }
-
-            .node {
-                font: 10px sans-serif;
-                fill: #ccc;
-                stroke: #000;
-                fixed: false;
-
-            }
-
-            .link {
-                stroke: #777;
-                stroke-width: 2px;
-            }
-
-            #box {
-                background: purple;
-                color: snow;
-                width: 500px;
-                height: 100px;
-                padding: 10px;
-            }
-            #label {
-                background: snow;
-                color: black;
-
-            }
-            .class{
-                float: left;
-
-            }
-            #left{
-                float:left;
             }
         </style>
     </head>
@@ -270,7 +240,6 @@
         </div>
         <!-- Scripts -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src='http://d3js.org/d3.v3.min.js'></script>
         <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
         <script src="//oss.maxcdn.com/semantic-ui/2.1.3/semantic.min.js"></script>
         <script>
@@ -295,8 +264,6 @@
                 ]
             }*/
         </script>
-        <script type="text/javascript" src="{{ asset('/js/init.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('/owl-carousel/owl.carousel.js') }}"></script>
     </body>
 </html>
 
