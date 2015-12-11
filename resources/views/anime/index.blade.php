@@ -66,6 +66,29 @@
             </form>-->
             <!--The selection module used to format and search through the data graph-->
 
+            <style type="text/css">
+
+
+                .node circle {
+                    cursor: pointer;
+                    fill: #fff;
+                    stroke: steelblue;
+                    stroke-width: 1.5px;
+                }
+
+                .node text {
+                    font-size: 11px;
+                }
+
+                path.link {
+                    fill: none;
+                    stroke: #ccc;
+                    stroke-width: 1.5px;
+                }
+
+            </style>
+            <body id="body">
+
 
             <script>
 
@@ -308,6 +331,7 @@
 
 
             </script>
+            </body>
         </div>
     </div>
 @endsection
