@@ -11,6 +11,7 @@ use App\User;
 use App\Anime;
 use Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundExecption as ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
@@ -66,16 +67,23 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    /*public function showCommand( Request $request )
+    public function checkUser( $id )
     {
 
-        $user = User::findOrFail( $request->input( 'chosenId' ) );
-        return view('user.show')->withUser($user);
+        $user = User::findOrFail($id);
+        if( $user instanceof ModelNotFoundException )
+        {
 
-    }*/
+            return response()->json( [ 'message' => -1 ], 220 );
+
+        }
+
+        return response()->json( [ 'message' => 0 ], 220 );
+
+    }
 
     /**
      * Show the form for editing the specified resource.

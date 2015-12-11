@@ -96,18 +96,13 @@ Route::group(
             ]
         );
 
-        /*Route::post(
-            'user.showCommand',
+        Route::post(
+            'user/{user}/checkUser',
             [
-                'as' => 'user.showCommand',
-                'uses' => 'UserController@showCommand'
+                'as' => 'user.checkUser',
+                'uses' => 'UserController@checkUser'
             ]
-        );*/
-
-        //Route::post( 'user.showCommand', 'UserController@showCommand' );
-
-        //Route::get( 'user.showCommand', 'UserController@showCommand' );
-
+        );
 
         Route::resource('user', 'UserController');
 

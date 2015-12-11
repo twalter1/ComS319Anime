@@ -17,7 +17,7 @@
         <link href="//fonts.googleapis.com/css?family=Roboto:700,500,400,300,100" rel="stylesheet" type="text/css">
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
         <style>
             html, body{ background:#292929; }
@@ -151,6 +151,13 @@
                                 //alert( "Going to a user's page" );
                                 var userId = splitString[2];
                                 //alert( userId );
+                                $.post( '{{ url('/user/{id}/checkUser') }}', { _token: token, id: userId } ).done( function( data ){
+                                    //alert( data.message );
+                                    alert( "Success" );
+                                }).fail( function( data ){
+                                    //alert( data.message );
+                                    alert( "Error" );
+                                });
                                 /*if( userId <= 0 || userId >  )
                                 {
 
@@ -160,7 +167,7 @@
                                 //else
                                 //{
 
-                                    window.location.href = startUrl + "user/" + userId;
+                                    //window.location.href = startUrl + "user/" + userId;
 
                                 //}
                                 /*$.post( config.routes[0].show, { _token: $( 'meta[ name=csrf-token ]').attr( 'content' ), chosenId: userId } ).done( function( data ){
