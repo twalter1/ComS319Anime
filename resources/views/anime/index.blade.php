@@ -66,41 +66,7 @@
             </form>-->
             <!--The selection module used to format and search through the data graph-->
 
-            <div id="box">
-                <p>
-                    <!--text box to search by name,  matching results will gain a bold outline-->
-                    Search by Name:
-                    <input id="title" type="text" style="color:Black">
-                    <!--option will have graph show only shows which are completed or not-->
-                    Status
-                    <select class="choice" id=statusPrefer style="color:Black">
-                        <option value="none">Both</option>
-                        <option value="done">Completed</option>
-                        <option value="notdone">In Progress</option>
-                    </select>
-                </p>
 
-                <p id=left>
-                    <!--toggles graph between genre web (sorted()) and interconnected (basic()) layout-->
-                    Search by Relation:
-                    <input id="pick" class="choice" type="checkbox" name="type" >
-
-                <p class="selector" id="default">
-                    <!--genre selection for sorted()-->
-                    Genres:
-                    <select class="choice" id=genrePrefer style="color:Black">
-                        <option value="all">All</option>
-                    </select>
-                </p>
-                <p class="selector" id="other">
-                    <!--number of similar genres required for basic()-->
-                    number of similar genres
-                    <input class="choice" id="similarnum" type="number" name="quantity" min="1" max="50" value="1" style="color:Black">
-                </p>
-
-                <p id="label">
-                </p>
-            </div>
             <script>
 
                 var width = 800;
@@ -124,459 +90,222 @@
                 @endforeach
 
 
-                //var data = JSON.stringify( newJsonData );
-                //alert( data );
-                //alert( data[0].genres );
-                //alert( data[0].genres[1].name );
+                var letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-                var graph = { "nodes": [], "links": [] };
+                var LETTERS=[];
 
-                // clears json in between states and formats
-
-                function clear()
+                for(var i=0;i<27;i++)
                 {
-
-                    graph = { "nodes": [], "links": [] };
-                    d3.select("svg").remove();
-
+                    var arr=[];
+                    LETTERS.push(arr);
                 }
+
+                var alphabet={
+                    "name":"alphabetic","children":[]
+                };
+
                 var colors=["#ff0000", "#ff8000", "#ffff00", "#80ff00", "#00ff00", "#00ff80", "#00ffff", "#007fff", "#0000ff", "#7f00ff", "#ff00ff", "#ff0080"];
 
                 var sizeData=Object.keys(data).length;
 
+                for(var i= 0;i<data.length;i++)
+                {
+                    data[i].id=0;
+                    var show=data[i].name.toLowerCase();
+                    if(show.indexOf("the ")==0)
+                    {
+                        show.slice(4);
+                    }
+                    var ch=show.charAt(0).toUpperCase();
+                    var indx=letters.indexOf(ch)+1;
+                    insertSort(LETTERS[indx],data[i]);
 
-                //places the nodes in the graph by giving those without x or y coordinates
-                //positions based on a polar grid
-                //this prevents glitching positions of the graph
 
-                function place()
+                }
+
+                if(LETTERS[0].length>0)
                 {
 
-                    var size = Object.keys( graph.nodes ).length;
-                    var theta = 2 * Math.PI / size;
-                    for( var i = 0; i < size; i++ )
+                    alphabet.children.push(
+                            {"name":"0-9","children":LETTERS[0]}
+                    )
+                }else{
+                    alphabet.children.push(
+                            {"name":"0-9","size":1200}
+                    )
+                }
+                for(var i=1;i<LETTERS.length;i++)
+                {
+                    if(LETTERS[i].length>0)
                     {
+                        alphabet.children.push(
+                                {"name":letters[i-1],"children":LETTERS[i]}
 
-                        if( graph.nodes[i].x == null )
+
+                        )
+
+                    }else{
+                        alphabet.children.push(
+                                {"name":letters[i-1],"size":1200}
+                        )
+                    }
+                }
+                function insertSort(array,obj){
+
+                    for(var i=0;i<array.length;i++)
+                    {
+                        if(obj.name.localeCompare(array[i].name)==-1)
                         {
-
-                            phi = i * theta;
-                            x0 = width / 2 - Math.cos(phi) * width / 4;
-                            y0 = height / 2 - Math.sin(phi) * width / 4;
-                            graph.nodes[i]["x"] = x0;
-                            graph.nodes[i]["y"] = y0;
-
+                            array.splice(i,0,obj);
+                            return;
                         }
+                    }
+                    array.push(obj);
+                }
 
+
+                var m = [20, 120, 20, 120],
+                        w = 1280 - m[1] - m[3],
+                        h = 800 - m[0] - m[2],
+                        i = 0,
+                        root;
+
+                var tree = d3.layout.tree()
+                        .size([h, w]);
+
+                var diagonal = d3.svg.diagonal()
+                        .projection(function(d) { return [d.y, d.x]; });
+
+                var vis = d3.select("#body").append("svg:svg")
+                        .attr("width", w + m[1] + m[3])
+                        .attr("height", h + m[0] + m[2])
+                        .append("svg:g")
+                        .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+
+                d3.json(alphabet, function(json) {
+                    root = alphabet;
+                    root.x0 = h / 2;
+                    root.y0 = 0;
+
+                    function toggleAll(d) {
+                        if (d.children) {
+                            d.children.forEach(toggleAll);
+                            toggle(d);
+                        }
                     }
 
-                }
-
-
-                var maxSeasons = 0;
-                for( var i = 0; i < sizeData; i++ )
-                {
-
-                    if( data[i].numSeasons > maxSeasons )
-                    {
-
-                        maxSeasons = data[i].numSeasons;
-
-                    }
-
-                }
-
-
-                //formats the graph for linkage via similar genres
-                //can change the required number of similar genres from the number dialog box
-                //
-                //First it calls selectData() and place()
-                //then it runs through the data json of graph
-                //for each two nodes with the required similar number of genres,
-                //it makes a link between them and ands it to the links json of graph.
-
-                function basic()
-                {
-
-                    selectData();
-                    place();
-                    var size = Object.keys( graph.nodes ).length;
-                    for( var i = 0; ( i + 1 ) < size; i++ )
-                    {
-
-                        var j = i + 1;
-                        g1 = Object.keys( graph.nodes[i].genres ).length;
-
-                        for( j; j < size; j++ )
-                        {
-
-                            g2 = Object.keys( graph.nodes[j].genres ).length;
-                            var er = 0
-                            for( var k = 0; k < g1; k++ )
-                            {
-
-                                for( var l = 0; l < g2; l++ )
-                                {
-
-                                    if( graph.nodes[i].genres[k].name == graph.nodes[j].genres[l].name )
-                                    {
-
-                                        er++;
-                                        if( er > $( "#similarnum" ).val() - 1 )
-                                        {
-
-                                            var newlink = { "source":i, "target":j };
-                                            graph.links.push( newlink );
-
-                                        }
-
-                                    }
-
-                                }
-
-                            }
-
-                        }
-
-                    }
-                    plotNodes();
-
-                }
-
-
-
-
-                // Now we create a force layout object and define its properties.
-                // Those include the dimensions of the visualization and the arrays
-                // of nodes and links.
-                function plotNodes()
-                {
-
-                    var svg = d3.select( 'body' ).append( 'svg' ).attr( 'width', width ).attr( 'height', height );
-
-                    // Extract the nodes and links from the data.
-                    var nodes = graph.nodes;
-                    var links = graph.links;
-
-                    var force = d3.layout.force().size( [ width, height ] ).charge( -500 ).gravity( .25 ).linkDistance( maxSeasons * 6 );
-
-
-
-                    var link = svg.selectAll( '.link' ).data( links ).enter().append( 'line' ).attr( 'class', 'link' );
-
-                    //creation of the node objects
-
-                    var node = svg.selectAll( '.node' )
-                            .data( nodes )
-                            .enter().append( 'circle' )
-                            .attr( 'class', 'node' )
-                            .attr( 'name', function(d){ return d.name; } )
-                            .attr( 'r', function(d){ return d.numSeasons * 5; } )
-                            .style( "fill", function(d){ return colors[ d.id % 12 ]; } )
-                            .call( force.drag );
-
-                    force.nodes( graph.nodes ).links( graph.links ).start();
-                    var size = Object.keys( graph.nodes ).length;
-                    for ( var i = 10 * size * size; i > 0; --i ) force.tick();
-                    force.stop();
-
-                    //these are the position properties for each node and link
-                    //they will change with the simulation
-
-                    node.attr( 'cx', function(d) { return d.x; } ).attr( 'cy', function(d) { return d.y; } );
-
-
-                    link.attr( 'x1', function(d) { return d.source.x; } )
-                            .attr( 'y1', function(d) { return d.source.y; } )
-                            .attr( 'x2', function(d) { return d.target.x; } )
-                            .attr( 'y2', function(d) { return d.target.y; } );
-
-                    //reassigns jquery listeners to the svg on each refresh
-                    //these include mouselisteners to highlight and return the nodes name
-                    //as well as a dialog box listener for the search function
-
-
-                    $( "#svg" ).ready( function()
-                    {
-
-                        $( ".node" ).on( 'mouseover', function()
-                        {
-
-                            this.setAttribute( "stroke-width", "3px" );
-                            tip = document.createElement("p");
-                            tip.innerHTML = this.getAttribute( "name" );
-                            document.getElementById( "label" ).appendChild( tip );
-
-                        });
-
-                        $( ".node" ).on( 'mouseout', function()
-                        {
-
-                            this.setAttribute( "stroke-width","1px" );
-                            document.getElementById( "label" ).removeChild( tip );
-
-                        });
-
-                        $( "#title" ).keyup( function()
-                        {
-
-                            $( ".node" ).each( function()
-                            {
-
-                                var g = this;
-                                str = document.getElementById( "title" ).value;
-                                if( g.getAttribute( "name" ).toLowerCase().indexOf( str.toLowerCase() ) > -1 && str != "" && g.__data__.genres != "none" )
-                                {
-
-                                    this.setAttribute( "stroke-width", "3px" );
-
-                                }
-                                else
-                                {
-
-                                    this.setAttribute( "stroke-width", "1px" );
-
-                                }
-
-                            })
-
-                        });
-
-                    });
-
-                }
-
-
-
-
-                //button listens for the control panel
-
-                $(document).ready( function()
-                {
-
-                    sorted();
-                    $( "#other" ).hide();
-                    $( "#btn0" ).click( function()
-                    {
-
-                        basic();
-
-                    });
-
-                    $( "#btn1" ).click(function()
-                    {
-
-                        clear();
-
-                    });
-
-                    $( "#pick" ).click( function()
-                    {
-
-                        $( ".selector" ).toggle();
-                        clear();
-                        if( document.getElementById( "pick" ).checked )
-                        {
-
-                            basic();
-
-                        }
-                        else
-                        {
-
-                            sorted();
-
-                        }
-
-                    });
-
-                    $( ".choice" ).change( function()
-                    {
-
-                        clear();
-                        if( document.getElementById( "pick" ).checked )
-                        {
-
-                            basic();
-
-                        }
-                        else
-                        {
-
-                            sorted();
-
-                        }
-
-                    });
-
+                    // Initialize the display to show a few nodes.
+                    root.children.forEach(toggleAll);
+                    //toggle(root.children[1]);
+                    //toggle(root.children[1].children[2]);
+                    //toggle(root.children[9]);
+                    //toggle(root.children[9].children[0]);
+
+                    update(root);
                 });
 
+                function update(source) {
+                    var duration = d3.event && d3.event.altKey ? 5000 : 500;
 
-                // gets the genres present in the given data json
+                    // Compute the new tree layout.
+                    var nodes = tree.nodes(root).reverse();
 
-                var genreArr = [];
-                //alert( data[1].genres );
-                for( var i = 0; i < sizeData; i++ )
-                {
+                    // Normalize for fixed-depth.
+                    nodes.forEach(function(d) { d.y = d.depth * 180; });
 
-                    num = Object.keys( data[i].genres ).length;
-                    for( var j = 0; j < num; j++ )
-                    {
+                    // Update the nodes…
+                    var node = vis.selectAll("g.node")
+                            .data(nodes, function(d) { return d.id || (d.id = ++i); });
 
-                        if( jQuery.inArray( data[i].genres[j].name, genreArr ) == -1 )
-                        {
+                    // Enter any new nodes at the parent's previous position.
+                    var nodeEnter = node.enter().append("svg:g")
+                            .attr("class", "node")
+                            .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+                            .on("click", function(d) { toggle(d); update(d); });
 
-                            genreArr.push( data[i].genres[j].name );
+                    nodeEnter.append("svg:circle")
+                            .attr("r", 1e-6)
+                            .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
 
-                        }
+                    nodeEnter.append("svg:text")
+                            .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
+                            .attr("dy", ".35em")
+                            .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+                            .text(function(d) { return d.name; })
+                            .style("fill-opacity", 1e-6);
 
+                    // Transition nodes to their new position.
+                    var nodeUpdate = node.transition()
+                            .duration(duration)
+                            .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+
+                    nodeUpdate.select("circle")
+                            .attr("r", 4.5)
+                            .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+                    nodeUpdate.select("text")
+                            .style("fill-opacity", 1);
+
+                    // Transition exiting nodes to the parent's new position.
+                    var nodeExit = node.exit().transition()
+                            .duration(duration)
+                            .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+                            .remove();
+
+                    nodeExit.select("circle")
+                            .attr("r", 1e-6);
+
+                    nodeExit.select("text")
+                            .style("fill-opacity", 1e-6);
+
+                    // Update the links…
+                    var link = vis.selectAll("path.link")
+                            .data(tree.links(nodes), function(d) { return d.target.id; });
+
+                    // Enter any new links at the parent's previous position.
+                    link.enter().insert("svg:path", "g")
+                            .attr("class", "link")
+                            .attr("d", function(d) {
+                                var o = {x: source.x0, y: source.y0};
+                                return diagonal({source: o, target: o});
+                            })
+                            .transition()
+                            .duration(duration)
+                            .attr("d", diagonal);
+
+                    // Transition links to their new position.
+                    link.transition()
+                            .duration(duration)
+                            .attr("d", diagonal);
+
+                    // Transition exiting nodes to the parent's new position.
+                    link.exit().transition()
+                            .duration(duration)
+                            .attr("d", function(d) {
+                                var o = {x: source.x, y: source.y};
+                                return diagonal({source: o, target: o});
+                            })
+                            .remove();
+
+                    // Stash the old positions for transition.
+                    nodes.forEach(function(d) {
+                        d.x0 = d.x;
+                        d.y0 = d.y;
+                    });
+                }
+
+                // Toggle children.
+                function toggle(d) {
+                    if (d.children) {
+                        d._children = d.children;
+                        d.children = null;
+                    } else {
+                        d.children = d._children;
+                        d._children = null;
                     }
-
-                }
-
-                // creates options for each genre for the selection box
-
-                for( var i = 0; i < genreArr.length; i++ )
-                {
-
-                    gen = document.createElement( "option" );
-                    gen.setAttribute( "value",genreArr[i] );
-                    gen.innerHTML = genreArr[i].toUpperCase();
-                    document.getElementById( "genrePrefer" ).appendChild( gen );
-
                 }
 
 
-                //formats graph for the web layout based on genres
-                //
-                //first it runs selectData() and place() to get and format
-                //the applicable shows
-                //then it adds the anchor points for each genre
-                //then it runs through the selected data and creates links
-                //between each node and its genres
-
-                function sorted()
-                {
-
-                    selectData();
-                    place();
-                    var size = Object.keys( graph.nodes ).length;
-                    addGenres( size );
-                    g2=genreArr.length;
-
-                    for( var i = 0; i < size; i++ )
-                    {
-
-                        g1 = Object.keys( graph.nodes[i].genres ).length;
-
-
-                        for( var k = 0; k < g1; k++ )
-                        {
-
-                            for( var l = 0; l < g2; l++ )
-                            {
-
-                                if( graph.nodes[i].genres[k].name.toUpperCase() == graph.nodes[ size + l ].name )
-                                {
-
-                                    var newlink = { "source":i, "target":size+l };
-                                    graph.links.push( newlink );
-
-                                }
-
-                            }
-
-                        }
-
-                    }
-                    plotNodes();
-
-                }
-
-                //creates large anchored nodes for each genre for the sorted layout
-
-                function addGenres( size )
-                {
-
-                    var theta = 2 * Math.PI / genreArr.length;
-                    for( var i = 0; i < genreArr.length; i++ )
-                    {
-
-                        phi = -i * theta;
-                        var x0 = width / 2 - Math.sin(phi) * width / 3;
-                        var y0 = height / 2 - Math.cos(phi) * width / 3;
-                        var newnode =
-                        {
-
-                            "id":size + i,
-                            "name":genreArr[i].toUpperCase(),
-                            "numSeasons":maxSeasons * 1.5,
-                            "x":x0,
-                            "y":y0,
-                            "genres":"none",
-                            "fixed":true
-
-                        };
-                        graph.nodes.push( newnode );
-
-                    }
-
-                }
-
-                //runs through the data and selects the shows which match the
-                //selection from the user
-                //
-                //these include genre and show completion status
-
-                function selectData()
-                {
-
-                    var size = Object.keys( data ).length;
-
-                    for( var i = 0; i < size; i++ )
-                    {
-
-                        var stat = true;
-                        if( document.getElementById( "statusPrefer" ).value == "done" && data[i].status == "ongoing" )
-                        {
-
-                            stat = false;
-
-                        }
-                        else if( document.getElementById( "statusPrefer" ).value == "notdone" && data[i].status == "completed" )
-                        {
-
-                            stat=false;
-
-                        }
-                        if( stat )
-                        {
-
-                            if( document.getElementById( "pick" ).checked || document.getElementById( "genrePrefer" ).value == "all" )
-                            {
-
-                                graph.nodes.push( data[i] );
-
-                            }
-                            else
-                            {
-
-                                ge = Object.keys( data[i].genres ).length;
-                                for( var k = 0; k < ge; k++ )
-                                {
-
-                                    if( document.getElementById( "genrePrefer" ).value == data[i].genres[k].name )
-                                        graph.nodes.push(data[i]);
-
-                                }
-
-                            }
-
-                        }
-
-                    }
-
-                }
 
             </script>
         </div>
