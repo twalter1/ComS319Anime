@@ -12,11 +12,9 @@
 
         .node text {
             font-size: 20px;
+            fill: snow;
         }
 
-        text{
-            color: blue;
-        }
 
         path.link {
             fill: none;
