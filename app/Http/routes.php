@@ -53,6 +53,14 @@ Route::group(
             ]
         );
 
+        Route::post(
+            'anime/{anime}/checkAnime',
+            [
+                'as' => 'anime.checkAnime',
+                'uses' => 'AnimeController@checkAnime'
+            ]
+        );
+
         Route::resource( 'anime', 'AnimeController' );
 
         Route::get(

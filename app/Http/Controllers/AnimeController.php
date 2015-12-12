@@ -63,6 +63,29 @@ class AnimeController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function checkAnime( Request $request )
+    {
+
+        $id = $request->input( 'id' );
+        //Log::info( "This is the id:".$id );
+        $anime = Anime::findOrFail($id);
+        if( $anime instanceof ModelNotFoundException )
+        {
+
+            return response()->json( [ 'message' => -1 ], 220 );
+
+        }
+
+        return response()->json( [ 'message' => 0 ], 220 );
+
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id

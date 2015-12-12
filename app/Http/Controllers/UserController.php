@@ -67,12 +67,14 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function checkUser( $id )
+    public function checkUser( Request $request )
     {
 
+        $id = $request->input( 'id' );
+        //Log::info( "This is the id:".$id );
         $user = User::findOrFail($id);
         if( $user instanceof ModelNotFoundException )
         {

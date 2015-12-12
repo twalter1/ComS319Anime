@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{ !! Session::token() !! }">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>ComS319Anime</title>
 
         <! -- Stylesheets -->
@@ -111,48 +111,78 @@
 
                         var splitString = document.getElementById( 'command').value.split( " " );
                         var startUrl = "http://localhost:8080/";
-                        var token = '{{ csrf_token() }}';
+                        //var token = '{{ csrf_token() }}';
                         if( splitString[0].localeCompare( "goto" ) == 0 )
                         {
 
                             if( splitString[1].localeCompare( "user" ) == 0 )
                             {
 
-                                //alert( "Going to a user's page" );
                                 var userId = splitString[2];
-                                //alert( userId );
-                                $.post( '{{ url('/user/{id}/checkUser') }}', { _token: token, id: userId } ).done( function( data ){
-                                    //alert( data.message );
-                                    alert( "Success" );
+                                $.post( '{{ url('/user/{id}/checkUser') }}', { _token: $( 'meta[ name = csrf-token ]').attr( 'content' ), id: userId } ).done( function( data ){
+                                    if( data.message == 0 )
+                                    {
+
+                                        window.location.href = startUrl + "user/" + userId;
+
+                                    }
+                                    else
+                                    {
+
+                                        alert( "This user does not exist" );
+
+                                    }
                                 }).fail( function( data ){
                                     //alert( data.message );
-                                    alert( "Error" );
+                                    if( data.message != 0 )
+                                    {
+
+                                        alert( "This user does not exist" );
+
+                                    }
+                                    else
+                                    {
+
+                                        window.location.href = startUrl + "user/" + userId;
+
+                                    }
+
                                 });
-                                /*if( userId <= 0 || userId >  )
-                                {
-
-                                    alert( "That user does not exist" );
-
-                                }*/
-                                //else
-                                //{
-
-                                    //window.location.href = startUrl + "user/" + userId;
-
-                                //}
-                                /*$.post( config.routes[0].show, { _token: $( 'meta[ name=csrf-token ]').attr( 'content' ), chosenId: userId } ).done( function( data ){
-                                    alert( data );
-                                }).fail( function(){
-                                    alert( "Error" );
-                                });*/
 
                             }
                             else if( splitString[1].localeCompare( "anime" ) == 0 )
                             {
 
-                                //alert( "Going to an anime's page" );
                                 var animeId = splitString[2];
-                                window.location.href = startUrl + "anime/" + animeId;
+                                $.post( '{{ url('/anime/{id}/checkAnime') }}', { _token: $( 'meta[ name = csrf-token ]').attr( 'content' ), id: animeId } ).done( function( data ){
+                                    if( data.message == 0 )
+                                    {
+
+                                        window.location.href = startUrl + "anime/" + animeId;
+
+                                    }
+                                    else
+                                    {
+
+                                        alert( "This anime does not exist" );
+
+                                    }
+                                }).fail( function( data ){
+                                    //alert( data.message );
+                                    if( data.message != 0 )
+                                    {
+
+                                        alert( "This anime does not exist" );
+
+                                    }
+                                    else
+                                    {
+
+                                        window.location.href = startUrl + "anime/" + animeId;
+
+                                    }
+
+                                });
 
                             }
                             else if( splitString[1].localeCompare( "home" ) == 0 )
@@ -198,9 +228,10 @@
 
                             var userEmail = splitString[1];
                             var userPassword = splitString[2];
-                            alert( "loggin in with email: " + userEmail + " and password: " + userPassword );
-                            $.post( '{{ url('/auth/login') }}', { _token: token, email: userEmail, password: userPassword } ).done( function( data ){
+                            //alert( "loggin in with email: " + userEmail + " and password: " + userPassword );
+                            $.post( '{{ url('/auth/login') }}', { _token: $( 'meta[ name = csrf-token ]').attr( 'content' ), email: userEmail, password: userPassword } ).done( function( data ){
                                 alert( "You are logged in!!" );
+                                window.location.href = startUrl;
                             }).fail( function(){
                                 alert( "Something went wrong" );
                             });
@@ -209,9 +240,11 @@
                         else if( splitString[0].localeCompare( "Logout" ) == 0 )
                         {
 
-                            alert( "Loging out" );
-                            $.post( '{{ url('/auth/logout') }}', { _token: token } ).done( function( data ){
+                            //alert( "Loging out" );
+                            $.post( '{{ url('/auth/logout') }}', { _token: $( 'meta[ name = csrf-token ]').attr( 'content' ) } ).done( function( data ){
                                 alert( data );
+                                alert( "You are logged out" );
+                                window.location.href = startUrl;
                             }).fail( function(){
                                 alert( "Could not log you out" );
                             });
