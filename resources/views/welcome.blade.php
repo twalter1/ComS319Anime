@@ -42,10 +42,10 @@
         <table ng-show="test.length > 0">
             <tr ng-repeat="x in names  | filter:{'name':test} |  orderBy:'name'">
 
-                <td>{{ $index + 1 }}</td>
-                <td>{{ x.name }}</td>
-                <td>{{ x.genres.toUpperCase() }}</td>
-                <td>{{x.status}}</td>
+                <td><% $index + 1 %></td>
+                <td><% x.name %></td>
+                <td><% x.genres.toUpperCase() %></td>
+                <td><%x.status%></td>
             </tr>
         </table>
 
@@ -73,14 +73,16 @@
         //alert( JSON.stringify( newJsonData ) );
                 @endforeach
 
-            for(var i=0;i<data.length;i++){
+        for(var i=0;i<data.length;i++){
             data[i].genres=stringIt(data[i].genres);
         }
 
         var app = angular.module('myApp', []);
 
-        angular.module('myApp', [])
-
+        angular.module('myApp', [], function($interpolateProvider) {
+                    $interpolateProvider.startSymbol('<%');
+                    $interpolateProvider.endSymbol('%>');
+                })
                 .controller('namesCtrl', function($scope) {
                     $scope.names = data;
                     $scope.test="";
