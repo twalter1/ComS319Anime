@@ -65,6 +65,7 @@
 
             for(var i= 0;i<data.length;i++)
             {
+                data[i].num=data[i].id;
                 data[i].id=0;
                 var show=data[i].name.toLowerCase();
                 if(show.indexOf("the ")==0)
@@ -186,6 +187,7 @@
                         .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
                         .attr("dy", ".35em")
                         .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+                        .attr('href',function(d){if(d.num!=null){return 'anime/'+ d.num;}return "";})
                         .text(function(d) { return d.name; })
                         .style("fill-opacity", 1e-6);
 
