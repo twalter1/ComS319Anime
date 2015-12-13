@@ -189,7 +189,8 @@
                         .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
                         .attr('href',function(d){if(d.num!=null){return 'anime/'+ d.num;}return "";})
                         .text(function(d) { return d.name; })
-                        .style("fill-opacity", 1e-6);
+                        .style("fill-opacity", 1e-6)
+                        .on("click", function(d) { toggle(d); update(d); });
 
                 // Transition nodes to their new position.
                 var nodeUpdate = node.transition()
@@ -253,6 +254,10 @@
 
             // Toggle children.
             function toggle(d) {
+                if(d.num!=null){
+                    window.location.href = "'anime/'+ d.num;";
+                }
+
                 if (d.children) {
                     d._children = d.children;
                     d.children = null;
