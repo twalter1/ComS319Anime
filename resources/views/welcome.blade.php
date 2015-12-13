@@ -42,7 +42,7 @@
                     <tr ng-repeat="x in names  | filter:{'name':test} |  orderBy:'name'">
 
                         <td><% $index + 1 %></td>
-                        <td href="anime/<% x.id %>"><% x.name %></td>
+                        <td> <a href="anime/<% x.id %>"><% x.name %></a></td>
                         <td><% x.genres.toUpperCase() %></td>
                         <td><%x.status%></td>
                     </tr>
