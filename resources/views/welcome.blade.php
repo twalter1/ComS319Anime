@@ -14,9 +14,6 @@
             </div>
         </div>
     </div>
-
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-
     <style>
         table, th , td {
             border: 1px solid grey;
@@ -87,6 +84,7 @@
                 .controller('namesCtrl', function($scope) {
                     $scope.names = data;
                     $scope.test="";
+                    $scope.index = 0;
 
 
                 });

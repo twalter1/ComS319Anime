@@ -18,6 +18,7 @@
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
         <script src='http://d3js.org/d3.v3.min.js'></script>
         <!--<script type="text/javascript" src="{{ asset('/js/init.js') }}"></script>-->
         <script type="text/javascript" src="{{ asset('/owl-carousel/owl.carousel.js') }}"></script>
@@ -273,7 +274,6 @@
         </div>
         <!-- Scripts -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
         <script src="//oss.maxcdn.com/semantic-ui/2.1.3/semantic.min.js"></script>
         <script>
             $(document).ready(function ()
