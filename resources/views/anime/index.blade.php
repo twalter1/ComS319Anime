@@ -255,7 +255,7 @@
             // Toggle children.
             function toggle(d) {
                 if(d.num!=null){
-                    window.location.href = "'anime/'+ d.num;";
+                    window.location.href = "anime/"+ d.num;
                 }
 
                 if (d.children) {
