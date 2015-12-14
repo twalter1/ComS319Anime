@@ -60,6 +60,7 @@ class UserController extends Controller
     {
 
         $user = User::findOrFail($id);
+
         return view('user.show')->withUser($user);
 
     }
@@ -70,20 +71,19 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function checkUser( Request $request )
+    public function checkUser(Request $request)
     {
 
-        $id = $request->input( 'id' );
+        $id = $request->input('id');
         //Log::info( "This is the id:".$id );
         $user = User::findOrFail($id);
-        if( $user instanceof ModelNotFoundException )
-        {
+        if ($user instanceof ModelNotFoundException) {
 
-            return response()->json( [ 'message' => -1 ], 220 );
+            return response()->json(['message' => -1], 220);
 
         }
 
-        return response()->json( [ 'message' => 0 ], 220 );
+        return response()->json(['message' => 0], 220);
 
     }
 
@@ -163,7 +163,8 @@ class UserController extends Controller
             $user->password = bcrypt($request->get('new_password'));
             $user->save();
 
-            return redirect()->route('user.show', $id)->withSuccess('Successfully changed ' . $user->name . "'s password ");
+            return redirect()->route('user.show',
+                $id)->withSuccess('Successfully changed ' . $user->name . "'s password ");
 
         } else {
 
@@ -214,7 +215,7 @@ class UserController extends Controller
 
     /**
      * Method that saves the currently logged in user as a follower of the specified user
-     * The return value is the number of followers of the specified user.
+     * The return value is the number of followers of the specified user as well as the animes that this user if following.
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
@@ -255,6 +256,7 @@ class UserController extends Controller
             $user->following()->detach($following);
 
         }
+
         return response()->json(
             [
                 'followers' => $following->followers()->get()->count()

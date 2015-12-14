@@ -21,7 +21,7 @@ class AnimeController extends Controller
     public function index()
     {
 
-        return view( 'anime.index' )->withAnimes(Anime::all());
+        return view('anime.index')->withAnimes(Anime::all());
 
     }
 
@@ -38,7 +38,7 @@ class AnimeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -49,7 +49,7 @@ class AnimeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -57,8 +57,9 @@ class AnimeController extends Controller
 
         $anime = Anime::findOrFail($id);
         //$user = Auth::user();
-        $data = json_decode( $anime->genre, true );
-        return view( 'anime.show' )->with( 'data', $data )->withAnime( $anime );
+        $data = json_decode($anime->genre, true);
+
+        return view('anime.show')->with('data', $data)->withAnime($anime);
 
     }
 
@@ -68,27 +69,26 @@ class AnimeController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function checkAnime( Request $request )
+    public function checkAnime(Request $request)
     {
 
-        $id = $request->input( 'id' );
+        $id = $request->input('id');
         //Log::info( "This is the id:".$id );
         $anime = Anime::findOrFail($id);
-        if( $anime instanceof ModelNotFoundException )
-        {
+        if ($anime instanceof ModelNotFoundException) {
 
-            return response()->json( [ 'message' => -1 ], 220 );
+            return response()->json(['message' => -1], 220);
 
         }
 
-        return response()->json( [ 'message' => 0 ], 220 );
+        return response()->json(['message' => 0], 220);
 
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -99,8 +99,8 @@ class AnimeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -111,14 +111,15 @@ class AnimeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function watch($id)
     {
 
         $anime = Anime::findOrFail($id);
-        return view( 'anime.watch' )->withAnime( $anime );
+
+        return view('anime.watch')->withAnime($anime);
 
     }
 
@@ -126,22 +127,21 @@ class AnimeController extends Controller
      * Method that saves the currently logged in user as a follower of the specified anime
      * The return value is the number of followers of the specified anime.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function follow( $id )
+    public function follow($id)
     {
         $user = Auth::user();
-        $followingAnime = Anime::with('user_followers')->find( $id );
+        $followingAnime = Anime::with('user_followers')->find($id);
 
-        if( !$followingAnime->user_followers->contains( $user ) )
-        {
+        if (!$followingAnime->user_followers->contains($user)) {
 
-            $followingAnime->user_followers()->attach( $user );
+            $followingAnime->user_followers()->attach($user);
 
         }
 
-        return response()->json( [ 'followers' => $followingAnime->user_followers()->get()->count() ], 220 );
+        return response()->json(['followers' => $followingAnime->user_followers()->get()->count()], 220);
 
     }
 
@@ -149,29 +149,28 @@ class AnimeController extends Controller
      * Method that deletes the currently logged in user as a follower of the specified anime
      * The return value is the number of followers of the specified anime.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function unfollow( $id )
+    public function unfollow($id)
     {
         $user = Auth::user();
-        $followingAnime = Anime::with('user_followers')->find( $id );
+        $followingAnime = Anime::with('user_followers')->find($id);
 
-        if( $followingAnime->user_followers->contains( $user) )
-        {
+        if ($followingAnime->user_followers->contains($user)) {
 
-            $followingAnime->user_followers()->detach( $user );
+            $followingAnime->user_followers()->detach($user);
 
         }
 
-        return response()->json( [ 'followers' => $followingAnime->user_followers()->get()->count() ], 220 );
+        return response()->json(['followers' => $followingAnime->user_followers()->get()->count()], 220);
 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

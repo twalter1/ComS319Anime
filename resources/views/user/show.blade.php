@@ -64,8 +64,8 @@
                                             $.each(response.animes_following,
                                                     function (key, value) {
                                                         animes += '<a href="anime/' + value.id + '">'
-                                                                + value.name +
-                                                                '</a><br>';
+                                                        + value.name +
+                                                        '</a><br>';
                                                     }
                                             );
                                             animes += '<br>';
