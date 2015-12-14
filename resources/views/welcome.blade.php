@@ -42,7 +42,7 @@
                     <tr ng-repeat="x in names  | filter:{'name':test} |  orderBy:'name'">
 
                         <td><% $index + 1 %></td>
-                        <td> <a href="anime/<% x.id %>"><% x.name %></a></td>
+                        <td> <a href="anime/<% x.id %>"><% x.name | front:test %><text style="background-color: yellow"><% x.name | mid:test %></text><% x.name | end:test %></a></td>
                         <td><% x.genres.toUpperCase() %></td>
                         <td><%x.status%></td>
                     </tr>
@@ -82,6 +82,29 @@
                             $interpolateProvider.startSymbol('<%');
                             $interpolateProvider.endSymbol('%>');
                         })
+                        .filter('front',function(){
+                            return function(input, txt) {
+                                var str = input.toUpperCase();
+                                txt=txt.toUpperCase();
+                                var index=str.indexOf(txt);
+                                return input.slice(0,index);
+                            }})
+                        .filter('mid',function(){
+                            return function(input, txt) {
+                                var str = input.toUpperCase();
+                                txt=txt.toUpperCase();
+                                var index=str.indexOf(txt);
+                                var l=txt.length;
+                                return input.slice(index,index+l);
+                            }})
+                        .filter('end',function(){
+                            return function(input, txt) {
+                                var str = input.toUpperCase();
+                                txt=txt.toUpperCase();
+                                var index=str.indexOf(txt);
+                                var l=txt.length;
+                                return input.slice(index+l);
+                            }})
                         .controller('namesCtrl', function($scope) {
                             $scope.names = data;
                             $scope.test="";
