@@ -28,13 +28,11 @@ Route::group(
         'prefix' => '/'
 
     ],
-    function()
-    {
+    function () {
 
-        Route::get( '/', 'WelcomeController@index' );
+        Route::get('/', 'WelcomeController@index');
 
-        Route::get( '/home', 'HomeController@index' );
-
+        Route::get('/home', 'HomeController@index');
 
 
         Route::get(
@@ -61,7 +59,7 @@ Route::group(
             ]
         );
 
-        Route::resource( 'anime', 'AnimeController' );
+        Route::resource('anime', 'AnimeController');
 
         Route::get(
             'anime/{anime}/watch',
@@ -88,7 +86,7 @@ Route::group(
         );
 
         Route::get(
-            //This is the url.  It would be localhost:8080/user/{the user whose page you are on}/follow
+        //This is the url.  It would be localhost:8080/user/{the user whose page you are on}/follow
             'user/{user}/follow',
             [
                 'as' => 'user.follow',

@@ -4,7 +4,8 @@
     <div class="ui container" style="background:#1A1A1A">
         <div class="ui segment" style="background:#1A1A1A">
             <h3 style="color:white">Edit Profile</h3>
-            {!! Form::model( $user, [ 'method'=>'PATCH', 'route'=>['user.update', $user->id], 'class'=>'ui form', 'files'=>true ] ) !!}
+            {!! Form::model( $user, [ 'method'=>'PATCH', 'route'=>['user.update', $user->id], 'class'=>'ui form',
+            'files'=>true ] ) !!}
             <div class="field">
                 {!! Form::label( 'name', 'Name:', [ 'style'=>'color:white' ] ) !!}
                 {!! Form::text( 'name', null ) !!}

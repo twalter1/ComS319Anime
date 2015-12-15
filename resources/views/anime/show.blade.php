@@ -29,45 +29,47 @@
                                 {{ $name[ 'name' ] }} &nbsp
                             @endforeach
                         </h1>
+
                         <h1 style="color:white">Status: &nbsp {{ $anime->status }}</h1>
+
                         <h1 style="color:white">Number of Seasons: &nbsp {{ $anime->numSeasons }}</h1>
+
                         <h1 style="color:white">Number of Episodes: &nbsp {{ $anime->numEpisodes }}</h1>
+
                         <h1 style="color:white">About</h1>
+
                         <h3 style="color:white">{{ $anime->description }}</h3>
-                        <h2 style="color:white">Number of People Following this Anime: &nbsp <span id="num-followers"> {{ $anime->user_followers->count() }}</span></h2>
+
+                        <h2 style="color:white">Number of People Following this Anime: &nbsp <span
+                                    id="num-followers"> {{ $anime->user_followers->count() }}</span></h2>
                         @if( !Auth::guest() )
                             <script>
-                                function show(button)
-                                {
+                                function show(button) {
 
-                                    if ( !$(button).hasClass( "active" ) )
-                                    {
+                                    if (!$(button).hasClass("active")) {
 
-                                        $( '.toggle.button' ).api({
+                                        $('.toggle.button').api({
 
-                                            onSuccess: function (response)
-                                            {
+                                            onSuccess: function (response) {
 
                                                 var num_followers = response.followers;
-                                                $( 'span#num-followers' ).text( num_followers );
-                                                $( this).data( "action", "unfollow anime" );
+                                                $('span#num-followers').text(num_followers);
+                                                $(this).data("action", "unfollow anime");
 
                                             }
 
                                         });
 
                                     }
-                                    else
-                                    {
+                                    else {
 
-                                        $( '.toggle.button' ).api({
+                                        $('.toggle.button').api({
 
-                                            onSuccess: function (response)
-                                            {
+                                            onSuccess: function (response) {
 
                                                 var num_followers = response.followers;
-                                                $( 'span#num-followers' ).text( num_followers );
-                                                $( this).data( "action", "follow anime" );
+                                                $('span#num-followers').text(num_followers);
+                                                $(this).data("action", "follow anime");
 
                                             }
 

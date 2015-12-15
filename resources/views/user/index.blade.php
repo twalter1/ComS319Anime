@@ -6,11 +6,11 @@
             <h3 style="color:white">Users</h3>
             <table class="ui celled table">
                 <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th># of Followers</th>
-                    </tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th># of Followers</th>
+                </tr>
                 </thead>
                 <tbody>
                 @foreach ($users as $user)

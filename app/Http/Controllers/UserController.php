@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-//use Illuminate\Http\RedirectResponse;
 use App\Http\Requests;
 use App\Http\Requests\UserChangePasswordRequest;
 use App\Http\Requests\UserEditRequest;
 use App\User;
-use App\Anime;
 use Hash;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundExecption as ModelNotFoundException;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+//use Illuminate\Http\RedirectResponse;
 
 class UserController extends Controller
 {

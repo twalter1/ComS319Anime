@@ -34,10 +34,9 @@ class UserEditRequest extends Request
 
         $user = auth()->user();
 
-        if ($user)
-        {
+        if ($user) {
 
-            return $this->route( 'user' ) == $user->id || parent::authorize();
+            return $this->route('user') == $user->id || parent::authorize();
 
         }
 

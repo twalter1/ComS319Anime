@@ -4,7 +4,8 @@
     <div class="ui container" style="background:#1A1A1A">
         <div class="ui segment" style="background:#1A1A1A">
             <h3 style="color:white">Change Password</h3>
-            {!! Form::model( $user, [ 'method'=>'PATCH', 'route'=>[ 'user.updatePassword', $user->id ], 'class'=>'ui form' ] ) !!}
+            {!! Form::model( $user, [ 'method'=>'PATCH', 'route'=>[ 'user.updatePassword', $user->id ], 'class'=>'ui
+            form' ] ) !!}
             <div class="field">
                 {!! Form::label( 'password', 'Current Password', [ 'style'=>'color:white' ] ) !!}
                 {!! Form::password( 'password' ) !!}
